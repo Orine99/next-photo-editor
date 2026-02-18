@@ -40,11 +40,10 @@ export const useEditorStore = create<EditorState>((set) => ({
     filters: defaultFilters,
 
     setImageBitmap: (bitmap) => set({imageBitmap: bitmap}),
-    setRotation: (deg) => set({rotation: deg}),
+    setRotation: (deg) => set((s) => ({rotation: deg})),
     toggleFlipX: () => set((s)=>({flipX: !s.flipX})),
     toggleFlipY: () => set((s)=>({flipY: !s.flipY})),
-    setFilter: (key, value) =>
-        set((s) => ({filters: {...s.filters, [key]: value}})),
+    setFilter: (key, value) => set((s) => ({filters: {...s.filters, [key]: value}})),
     reset: () => set({
           rotation: 0,
           flipX: false,
