@@ -1,4 +1,5 @@
 
+
 export async function exportCanvasImage(opts:
     {canvas: HTMLCanvasElement;
         type: "image/png" | "image/jpeg";
@@ -6,7 +7,7 @@ export async function exportCanvasImage(opts:
         fileName: string;
     }){
         const {canvas, type, quality = 0.92, fileName} = opts;
-
+        
         const blob: Blob | null = await new Promise((resolve) => 
             canvas.toBlob(resolve, type, quality)
         );

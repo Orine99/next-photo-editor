@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useEditorStore } from "../store/useEditorStore";
 import { exportCanvasImage } from "../lib/exportImage";
 import Slider from "./Slider";
@@ -16,17 +16,30 @@ export default function Toolbar() {
   const filters = useEditorStore((s) => s.filters);
   const setFilter = useEditorStore((s) => s.setFilter);
   const reset = useEditorStore((s) => s.reset);
+  const [showCrop, setShowCrop] = useState(false);
+  const imageName = useEditorStore((s) => s.imageName);
+  const openCrop = useEditorStore((s) => s.openCrop);
 
+  
   // We’ll find the canvas by query selector (simple for MVP)
+  const sanitizeFileName = (name: string) =>
+  name
+    .trim()
+    .replace(/[\/\\?%*:|"<>]/g, "-") // replace illegal filename chars
+    .replace(/\s+/g, " "); // collapse spaces
+
   const handleExport = async (type: "image/png" | "image/jpeg") => {
-    const canvas = document.querySelector("canvas");
+    const canvas = document.querySelector("canvas") as HTMLCanvasElement | null;
     if (!canvas) return;
+
+    const safe = sanitizeFileName(imageName || "EditableImage") || "EditableImage";
+    const ext = type === "image/png" ? "png" : "jpg";
 
     await exportCanvasImage({
       canvas,
       type,
       quality: type === "image/jpeg" ? 0.92 : 1,
-      fileName: type === "image/png" ? "edited.png" : "edited.jpg",
+      fileName: `${safe}.${ext}`,
     });
   };
 
@@ -67,11 +80,20 @@ export default function Toolbar() {
         </button>
         <button
           className="px-3 py-2 rounded-lg border disabled:opacity-50"
+          onClick={openCrop}
+          disabled={!imageBitmap}
+          >
+          Crop
+        </button>
+
+        <button
+          className="px-3 py-2 rounded-lg border disabled:opacity-50"
           onClick={reset}
           disabled={disabled}
         >
           Reset
         </button>
+        
       </div>
 
       <div className="space-y-3">

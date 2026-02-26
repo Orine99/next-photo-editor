@@ -4,6 +4,7 @@ export function drawToCanvas(opts: {
   rotationDeg: number;
   flipX: boolean;
   flipY: boolean;
+  zoom: number;
   filters: {
     brightness: number;
     contrast: number;
@@ -12,7 +13,7 @@ export function drawToCanvas(opts: {
     sepia: number;
   };
 }) {
-  const { canvas, image, rotationDeg, flipX, flipY, filters } = opts;
+  const { canvas, image, rotationDeg, flipX, flipY, filters,zoom } = opts;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
@@ -39,7 +40,8 @@ export function drawToCanvas(opts: {
     `sepia(${filters.sepia})`;
 
   // Fit
-  const scale = Math.min(cssWidth / image.width, cssHeight / image.height);
+  const baseScale  = Math.min(cssWidth / image.width, cssHeight / image.height);
+  const scale = baseScale * Math.max(0.1, zoom); 
   const drawW = image.width * scale;
   const drawH = image.height * scale;
 
