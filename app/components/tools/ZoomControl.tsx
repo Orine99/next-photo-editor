@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditorStore } from "../store/useEditorStore";
+import { useEditorStore } from "../../store/useEditorStore";
 
 export default function ZoomControl() {
   const imageBitmap = useEditorStore((s) => s.imageBitmap);

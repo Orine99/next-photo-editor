@@ -1,13 +1,14 @@
-
 "use client";
 
 import { useEffect, useRef } from "react";
 import { useEditorStore } from "../store/useEditorStore";
 import { drawToCanvas } from "../lib/draw";
-import ZoomControl from "./ZoomControl";
+import ZoomControl from "./tools/ZoomControl";
+import CropPopover from "./tools/CropPopover";
 
 export default function EditorCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const lastTapRef = useRef<number>(0);
 
   const imageBitmap = useEditorStore((s) => s.imageBitmap);
   const rotation = useEditorStore((s) => s.rotation);
@@ -15,32 +16,39 @@ export default function EditorCanvas() {
   const flipY = useEditorStore((s) => s.flipY);
   const filters = useEditorStore((s) => s.filters);
   const zoom = useEditorStore((s) => s.zoom);
+  const croppedAreaPixels = useEditorStore((s) => s.croppedAreaPixels);
   const toggleCrop = useEditorStore((s) => s.toggleCrop);
 
-    // double-tap support (mobile)
-    const lastTapRef = useRef<number>(0);
-
-    const onPointerDown = () => {
-      const now = Date.now();
-      if (now - lastTapRef.current < 300) {
-        toggleCrop();
-        lastTapRef.current = 0;
-      } else {
-        lastTapRef.current = now;
-      }
-    };
+  const onPointerDown = () => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      toggleCrop();
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  };
 
   const redraw = () => {
     const canvas = canvasRef.current;
     if (!canvas || !imageBitmap) return;
-    drawToCanvas({ canvas, image: imageBitmap, rotationDeg: rotation, flipX, flipY, filters,zoom });
+    drawToCanvas({
+      canvas,
+      image: imageBitmap,
+      rotationDeg: rotation,
+      flipX,
+      flipY,
+      filters,
+      zoom,
+      croppedAreaPixels,
+    });
   };
 
   useEffect(() => {
     const id = requestAnimationFrame(redraw);
     return () => cancelAnimationFrame(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageBitmap, rotation, flipX, flipY, filters,zoom]);
+  }, [imageBitmap, rotation, flipX, flipY, filters, zoom, croppedAreaPixels]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -57,18 +65,20 @@ export default function EditorCanvas() {
       window.removeEventListener("resize", redraw);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageBitmap, rotation, flipX, flipY, filters, zoom]);
+  }, [imageBitmap, rotation, flipX, flipY, filters, zoom, croppedAreaPixels]);
 
   return (
-    <div className="rounded-xl border bg-white overflow-hidden">
-      <div className="px-4 py-2 border-b text-sm text-zinc-700">Canvas Preview</div>
-      <div className="p-3"
-      onDoubleClick={() => toggleCrop()}
-      onPointerDown={onPointerDown}
+    <div className="nature-canvas-card rounded-xl border overflow-hidden">
+      <div className="nature-canvas-header px-4 py-2 border-b text-sm">Canvas Preview</div>
+      <div
+        className="canvas-preview-wrap p-3"
+        onDoubleClick={() => toggleCrop()}
+        onPointerDown={onPointerDown}
       >
-        <canvas ref={canvasRef} className="w-full h-[520px] bg-zinc-100 rounded-lg" />
+        <canvas ref={canvasRef} className="editor-canvas w-full h-[520px] rounded-lg" />
+        <CropPopover />
         <ZoomControl />
       </div>
     </div>
   );
-};
+}

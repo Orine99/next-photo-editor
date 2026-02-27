@@ -12,7 +12,7 @@ export default function Slider(props: {
 
     return (
         <div>
-        <div className="flex items-center justify-between text-xs text-zinc-700">
+        <div className="slider-head flex items-center justify-between text-xs">
             <span>{label}</span>
             <span>{value.toFixed(2)}</span>
         </div>
@@ -24,7 +24,7 @@ export default function Slider(props: {
             value={value}
             onChange={(e) => onChange(Number(e.target.value))}
             disabled={disabled}
-            className="w-full"
+            className="slider-range w-full"
         />
         </div>
     );
