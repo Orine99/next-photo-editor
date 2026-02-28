@@ -1,255 +1,102 @@
-🖼️ Next.js Photo Editor (MVP)
+# Gleeful Photo Editor
 
-A client-side photo editing application built with Next.js (App Router), React, Zustand, and the HTML5 Canvas API.
+A browser-based photo editor built with Next.js App Router, React, Zustand, and the HTML5 Canvas API.
 
-This project demonstrates a reactive image editing workflow where user actions update global state, automatically triggering canvas re-rendering.
+Fast workflow, no server upload requirement, and clean PNG/JPG export.
 
-🚀 Features (Current MVP)
+## Current Workflow (Implemented)
 
-✅ Upload image (Drag & Drop or Click)
+1. Open the app and upload one image via drag-and-drop or the `Choose Image` button.
+2. On upload, editor state resets and the default export name is set from the file name.
+3. The canvas preview renders from centralized Zustand state.
+4. Use tools to adjust:
+   - rotation (`-90`, `+90`)
+   - flip (`X`, `Y`)
+   - filters (brightness, contrast, saturation, grayscale, sepia)
+   - zoom (preview scale)
+5. Open crop mode from the toolbar (or double-click/tap the canvas area), choose an aspect ratio, and set crop bounds.
+6. Rename the export file in the image-name field.
+7. Export as PNG or JPG.
 
-✅ Canvas-based preview
+## What Is Live Right Now
 
-✅ Brightness adjustment
+- Single-image upload (`image/*`)
+- Reactive canvas rendering from global store
+- Filter controls with real-time preview
+- Rotation and flipping
+- Zoom control for preview
+- Crop overlay with ratio presets: `Free`, `1:1`, `4:5`, `16:9`
+- Editable export filename
+- PNG/JPG export with applied crop, filters, rotation, and flip
+- Reset to editor defaults
 
-✅ Contrast adjustment
+## Architecture Snapshot
 
-✅ Saturation adjustment
+The app follows a state-driven render model:
 
-✅ Grayscale filter
+`UI action -> Zustand state update -> canvas redraw -> export from current state`
 
-✅ Sepia filter
+- `useEditorStore.ts` is the single source of truth for edit state.
+- `EditorCanvas.tsx` subscribes to state and redraws on change.
+- `draw.ts` handles preview drawing logic (fit, zoom, transform, filter, crop region).
+- `exportImage.ts` renders an off-screen export canvas and downloads PNG/JPG.
 
-✅ Rotate ±90°
+## Project Structure
 
-✅ Flip Horizontal / Vertical
-
-✅ Reset edits
-
-✅ Export as PNG or JPG
-
-🧠 Project Architecture & Workflow
-
-This application follows a reactive state-driven rendering model.
-
-Instead of manually updating the canvas everywhere, all edits update centralized state. The canvas reacts automatically.
-
-🔄 High-Level Workflow
-User Action
-   ↓
-Zustand Store Updates
-   ↓
-EditorCanvas Detects State Change
-   ↓
-drawToCanvas() Re-renders Image
-   ↓
-Canvas Updates in Real-Time
-
-📂 Project Structure
-src/
-  app/
-    page.tsx              → Main layout
+```text
+app/
+  page.tsx
   components/
-    UploadDropzone.tsx    → Image upload
-    EditorCanvas.tsx      → Canvas rendering
-    Toolbar.tsx           → Editing controls
-  store/
-    useEditorStore.ts     → Global state (Zustand)
+    AboutPanel.tsx
+    EditableImageName.tsx
+    EditorCanvas.tsx
+    HeroUploadSection.tsx
+    Navbar.tsx
+    UploadDropZone.tsx
+    tools/
+      CropPopover.tsx
+      Slider.tsx
+      Toolbar.tsx
+      ZoomControl.tsx
   lib/
-    draw.ts               → Canvas rendering logic
-    exportImage.ts        → Image export logic
-
-🔍 Detailed Workflow Explanation
-1️⃣ Page Load
-
-page.tsx renders:
-
-UploadDropzone
-
-EditorCanvas
-
-Toolbar
-
-These are client components because they rely on browser APIs (canvas, window, file input).
-
-2️⃣ Global State (Zustand)
-
-All editor state is centralized in:
-
-useEditorStore.ts
-
-
-State includes:
-
-imageBitmap
-
-rotation
-
-flipX, flipY
-
-filters (brightness, contrast, etc.)
-
-Any component can:
-
-Read state
-
-Update state
-
-React to state changes
-
-3️⃣ Image Upload Flow
-
-Inside UploadDropzone.tsx:
-
-User selects or drops image
-
-createImageBitmap(file) decodes the image
-
-setImageBitmap(bmp) stores it in Zustand
-
-This triggers a re-render in the canvas component.
-
-4️⃣ Canvas Rendering System
-
-Inside EditorCanvas.tsx:
-
-Subscribes to:
-
-imageBitmap
-
-rotation
-
-flipX, flipY
-
-filters
-
-Whenever any of these change:
-
-useEffect → drawToCanvas()
-
-5️⃣ drawToCanvas()
-
-Located in lib/draw.ts
-
-This function:
-
-Measures canvas size
-
-Adjusts for devicePixelRatio
-
-Clears the canvas
-
-Applies filters:
-
-ctx.filter = brightness(...) contrast(...) saturate(...) grayscale(...) sepia(...)
-
-
-Applies transformations:
-
-translate to center
-
-rotate
-
-flip
-
-Draws the image scaled to fit
-
-The preview is always a fresh render of the current state.
-
-6️⃣ Editing Controls
-
-Inside Toolbar.tsx:
-
-Buttons and sliders update Zustand:
-
-setFilter("brightness", value)
-setRotation(rotation + 90)
-toggleFlipX()
-
-
-Toolbar does not draw directly.
-
-State changes → Canvas reacts automatically.
-
-7️⃣ Export Process
-
-When Export is clicked:
-
-Canvas is selected
-
-canvas.toBlob() is called
-
-A temporary download link is generated
-
-File downloads (PNG or JPG)
-
-Currently, export downloads exactly what is shown in the preview canvas.
-
-🛠️ Tech Stack
-
-Next.js (App Router)
-
-React
-
-TypeScript
-
-Zustand (State Management)
-
-HTML5 Canvas API
-
-TailwindCSS
-
-react-dropzone
-
-💡 Design Philosophy
-
-This project follows:
-
-Centralized state management
-
-Reactive rendering
-
-Clear separation of concerns
-
-Canvas abstraction inside a single draw function
-
-No component directly manipulates the canvas except EditorCanvas.
-
-🧪 How to Run
+    draw.ts
+    exportImage.ts
+  store/
+    useEditorStore.ts
+```
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Zustand
+- react-dropzone
+- react-easy-crop
+- HTML5 Canvas API
+
+## Run Locally
+
+```bash
 npm install
 npm run dev
+```
 
+Open `http://localhost:3000`.
 
-Open:
+Optional checks:
 
-http://localhost:3000
+```bash
+npm run lint
+npm run build
+```
 
-📈 Planned Upgrades
+## Notes
 
-Crop tool
+- Editing is fully client-side.
+- Zoom affects preview scale, not output pixel dimensions.
+- Export uses current crop + transform + filter state.
 
-Undo / Redo history stack
+## License
 
-Text tool
-
-Stickers
-
-Save projects (database)
-
-AI features (background removal, enhancement)
-
-High-resolution export from original image dimensions
-
-🏗️ Future Architectural Improvements
-
-Use a dedicated export canvas
-
-Add history state snapshots
-
-Layer system
-
-Modular tool system
-
-📄 License
-
-This project is for educational and portfolio purposes.
+Educational and portfolio use.
