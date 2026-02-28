@@ -527,10 +527,16 @@ body {
   z-index: 30;
 }
 
-.canvas-crop-done {
+.canvas-crop-actions {
   position: absolute;
-  top: 12px;
   right: 12px;
+  bottom: 12px;
+  z-index: 43;
+  display: flex;
+  gap: 8px;
+}
+
+.canvas-crop-btn {
   border: 1px solid #d4d4d8;
   border-radius: 10px;
   padding: 7px 11px;
@@ -539,7 +545,12 @@ body {
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
-  z-index: 40;
+}
+
+.canvas-crop-btn.apply {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #ffffff;
 }
 
 .canvas-crop-free-frame {
@@ -719,26 +730,26 @@ body {
 /* Calm nature theme */
 .nature-theme {
   background:
-    radial-gradient(circle at 10% 10%, rgba(150, 178, 156, 0.3), transparent 45%),
-    radial-gradient(circle at 90% 20%, rgba(188, 208, 191, 0.26), transparent 48%),
-    linear-gradient(180deg, #edf3ee 0%, #e7efe8 50%, #f2f6f2 100%);
-  color: #2f4536;
+    radial-gradient(circle at 10% 10%, rgba(162, 116, 210, 0.24), transparent 48%),
+    radial-gradient(circle at 90% 20%, rgba(189, 148, 224, 0.2), transparent 52%),
+    linear-gradient(180deg, #f8f1e6 0%, #f4e9da 55%, #efe2cf 100%);
+  color: #3f2d55;
 }
 
 .nature-theme .navbar {
-  background: rgba(244, 248, 244, 0.9);
-  border-bottom-color: #c9d9cd;
-  box-shadow: 0 8px 24px rgba(50, 74, 58, 0.12);
+  background: rgba(250, 244, 236, 0.92);
+  border-bottom-color: #d7c4e6;
+  box-shadow: 0 8px 24px rgba(83, 54, 115, 0.16);
 }
 
 .nature-theme .nav-link,
 .nature-theme .nav-icon {
-  color: #4f6a58;
+  color: #5a3d7a;
 }
 
 .nature-theme .nav-link:hover,
 .nature-theme .nav-icon:hover {
-  color: #3f6b4e;
+  color: #7a4bb3;
 }
 
 .nature-theme .about-panel,
@@ -746,14 +757,14 @@ body {
 .nature-theme .image-name-inner,
 .nature-canvas-card,
 .nature-toolbar {
-  background: linear-gradient(150deg, rgba(248, 252, 248, 0.96), rgba(237, 245, 238, 0.93));
-  border-color: #c8d8cb;
-  box-shadow: 0 16px 34px rgba(45, 69, 53, 0.13);
+  background: linear-gradient(150deg, rgba(252, 247, 240, 0.97), rgba(244, 235, 252, 0.94));
+  border-color: #dcc9ea;
+  box-shadow: 0 16px 34px rgba(83, 54, 115, 0.15);
 }
 
 .nature-theme .about-badge {
-  background: rgba(123, 154, 129, 0.2);
-  color: #42644d;
+  background: rgba(148, 93, 196, 0.16);
+  color: #5c3a7e;
 }
 
 .nature-theme .about-title,
@@ -761,11 +772,11 @@ body {
 .nature-theme .image-name-label,
 .nature-tools-title,
 .nature-canvas-header {
-  color: #2f4636;
+  color: #3d2b55;
 }
 
 .nature-theme .about-tagline {
-  color: #52755d;
+  color: #6e46a1;
 }
 
 .nature-theme .about-description,
@@ -773,48 +784,48 @@ body {
 .nature-theme .upload-hint,
 .nature-theme .image-name-ext,
 .nature-footer {
-  color: #5c7362;
+  color: #6b5982;
 }
 
 .nature-theme .upload-icon {
-  background: rgba(136, 168, 144, 0.2);
-  color: #4f745a;
+  background: rgba(155, 107, 209, 0.18);
+  color: #653f91;
 }
 
 .nature-theme .upload-btn {
-  background: linear-gradient(120deg, #6f9278, #5f8268);
-  box-shadow: 0 10px 22px rgba(70, 98, 77, 0.24);
+  background: linear-gradient(120deg, #8b5ec0, #7447ac);
+  box-shadow: 0 10px 22px rgba(93, 58, 133, 0.28);
 }
 
 .nature-theme .upload-btn:hover {
-  background: linear-gradient(120deg, #7b9d84, #688b71);
+  background: linear-gradient(120deg, #996bcf, #8354bd);
 }
 
 .nature-theme .image-name-input {
-  background: #f8fbf8;
-  border-color: #bfcfc3;
-  color: #2f4536;
+  background: #fffaf4;
+  border-color: #dac8e8;
+  color: #3d2b55;
 }
 
 .nature-theme .image-name-input:focus {
-  border-color: #7da389;
-  box-shadow: 0 0 0 3px rgba(125, 163, 137, 0.24);
+  border-color: #9a6ed0;
+  box-shadow: 0 0 0 3px rgba(154, 110, 208, 0.24);
 }
 
 .nature-canvas-header {
-  border-bottom-color: #c8d8cb;
+  border-bottom-color: #dcc9ea;
 }
 
 .nature-action-btn {
-  background: #f5faf5;
-  border-color: #bfd0c2;
-  color: #395543;
+  background: #fbf6ef;
+  border-color: #d9c7e8;
+  color: #4b3568;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .nature-action-btn:hover:not(:disabled) {
-  background: #e8f1e9;
-  border-color: #8eb198;
+  background: #f2e8fb;
+  border-color: #b893da;
 }
 
 .nature-action-btn:disabled {
@@ -822,57 +833,63 @@ body {
 }
 
 .nature-theme .editor-canvas {
-  background: #dfe9e1;
+  background: #efe5f7;
 }
 
 .nature-theme .crop-selector,
 .nature-theme .crop-menu-item {
-  border-color: #bfd0c2;
-  background: #f5faf5;
+  border-color: #d9c7e8;
+  background: #fbf6ef;
 }
 
 .nature-theme .crop-trigger {
-  background: #f4f9f4;
-  color: #2f4637;
+  background: #faf2fb;
+  color: #3f2d57;
 }
 
 .nature-theme .crop-trigger.open {
-  border-bottom-color: #bfd0c2;
+  border-bottom-color: #d9c7e8;
 }
 
 .nature-theme .crop-arrow-icon {
-  border-right-color: #62806d;
-  border-bottom-color: #62806d;
+  border-right-color: #7850a5;
+  border-bottom-color: #7850a5;
 }
 
 .nature-theme .crop-menu-item {
-  color: #4e6658;
+  color: #5a4379;
 }
 
 .nature-theme .crop-menu-item.active {
-  border-color: #85a98e;
-  color: #30513d;
-  background: rgba(137, 177, 146, 0.24);
+  border-color: #9a6ed0;
+  color: #4f2f75;
+  background: rgba(154, 110, 208, 0.2);
 }
 
 .nature-theme .canvas-crop-overlay {
-  background: #d9e5db;
+  background: #eadff3;
 }
 
-.nature-theme .canvas-crop-done {
-  border-color: #9bb6a1;
-  background: rgba(248, 252, 248, 0.95);
-  color: #2f4637;
+.nature-theme .canvas-crop-btn {
+  border-color: #bfa7d6;
+  background: rgba(252, 247, 240, 0.95);
+  color: #3f2d57;
+}
+
+.nature-theme .canvas-crop-btn.apply {
+  border-color: #8b5ec0;
+  background: #8b5ec0;
+  color: #fff7ff;
 }
 
 .nature-theme .canvas-crop-free-frame {
-  border-color: rgba(247, 252, 247, 0.95);
-  box-shadow: 0 0 0 9999px rgba(58, 84, 65, 0.3);
+  border-color: rgba(255, 250, 246, 0.95);
+  box-shadow: 0 0 0 9999px rgba(66, 42, 95, 0.28);
 }
 
 .nature-theme .canvas-crop-handle.corner {
-  border-color: rgba(247, 252, 247, 0.95);
-  background: rgba(73, 102, 81, 0.55);
+  border-color: rgba(255, 250, 246, 0.95);
+  background: rgba(109, 70, 153, 0.58);
 }
 
 .zoom-bar {
@@ -889,20 +906,28 @@ body {
 }
 
 .nature-theme .zoom-bar {
-  background: #f3f8f3;
-  border: 1px solid #bfd0c2;
+  background: #faf2fb;
+  border: 1px solid #d9c7e8;
 }
 
 .nature-theme .zoom-slider,
 .nature-theme .slider-range {
-  accent-color: #6e9880;
+  accent-color: #8f62c6;
 }
 
 .nature-theme .zoom-value,
 .nature-toolbar .slider-head {
-  color: #4f6759;
+  color: #5b447b;
 }
 
 .nature-footer {
-  border-top: 1px solid #bfd0c2;
+  border-top: 1px solid #d9c7e8;
+}
+
+
+.footer{
+  border-top: 1px solid #d9c7e8;
+  padding: 14px 0;
+  text-align: center;
+  color: #111111;
 }

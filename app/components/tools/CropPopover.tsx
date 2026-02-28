@@ -42,7 +42,8 @@ export default function CropPopover() {
 
   const imageBitmap = useEditorStore((s) => s.imageBitmap);
   const isCropOpen = useEditorStore((s) => s.isCropOpen);
-  const closeCrop = useEditorStore((s) => s.closeCrop);
+  const applyCropSession = useEditorStore((s) => s.applyCropSession);
+  const cancelCropSession = useEditorStore((s) => s.cancelCropSession);
 
   const crop = useEditorStore((s) => s.crop);
   const zoomCrop = useEditorStore((s) => s.zoomCrop);
@@ -170,6 +171,14 @@ export default function CropPopover() {
     };
   }, []);
 
+  const handleApplyCrop = () => {
+    applyCropSession();
+  };
+
+  const handleCancelCrop = () => {
+    cancelCropSession();
+  };
+
   if (!isCropOpen || !imageBitmap || !imageUrl) return null;
 
   return (
@@ -205,9 +214,14 @@ export default function CropPopover() {
         </div>
       )}
 
-      <button className="canvas-crop-done" onClick={closeCrop} type="button">
-        Done
-      </button>
+      <div className="canvas-crop-actions">
+        <button className="canvas-crop-btn cancel" onClick={handleCancelCrop} type="button">
+          Cancel
+        </button>
+        <button className="canvas-crop-btn apply" onClick={handleApplyCrop} type="button">
+          Apply
+        </button>
+      </div>
     </div>
   );
 }

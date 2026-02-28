@@ -18,12 +18,12 @@ export default function EditorCanvas() {
   const zoom = useEditorStore((s) => s.zoom);
   const croppedAreaPixels = useEditorStore((s) => s.croppedAreaPixels);
   const isCropOpen = useEditorStore((s) => s.isCropOpen);
-  const toggleCrop = useEditorStore((s) => s.toggleCrop);
+  const openCrop = useEditorStore((s) => s.openCrop);
 
   const onPointerDown = () => {
     const now = Date.now();
     if (now - lastTapRef.current < 300) {
-      toggleCrop();
+      if (!isCropOpen) openCrop();
       lastTapRef.current = 0;
     } else {
       lastTapRef.current = now;
@@ -73,7 +73,9 @@ export default function EditorCanvas() {
       <div className="nature-canvas-header px-4 py-2 border-b text-sm">Canvas Preview</div>
       <div
         className="canvas-preview-wrap p-3"
-        onDoubleClick={() => toggleCrop()}
+        onDoubleClick={() => {
+          if (!isCropOpen) openCrop();
+        }}
         onPointerDown={onPointerDown}
       >
         <canvas ref={canvasRef} className="editor-canvas w-full h-[520px] rounded-lg" />

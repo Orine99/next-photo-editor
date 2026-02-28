@@ -3,6 +3,7 @@ import Toolbar from "./components/tools/Toolbar";
 import Navbar from "./components/Navbar";
 import HeroUploadSection from "./components/HeroUploadSection";
 import EditableImageName from "./components/EditableImageName";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -19,10 +20,7 @@ export default function Home() {
             <EditorCanvas />
           </div>
         </div>
-
-        <footer className="nature-footer mt-10 pt-5 text-center text-sm">
-          <p>Photo Editor - Built for quick browser edits</p>
-        </footer>
+        <Footer />
       </div>
     </main>
   );

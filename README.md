@@ -10,13 +10,18 @@ Fast workflow, no server upload requirement, and clean PNG/JPG export.
 2. On upload, editor state resets and the default export name is set from the file name.
 3. The canvas preview renders from centralized Zustand state.
 4. Use tools to adjust:
+   - undo / redo history
    - rotation (`-90`, `+90`)
    - flip (`X`, `Y`)
    - filters (brightness, contrast, saturation, grayscale, sepia)
    - zoom (preview scale)
 5. Open crop mode from the toolbar (or double-click/tap the canvas area), choose an aspect ratio, and set crop bounds.
-6. Rename the export file in the image-name field.
-7. Export as PNG or JPG.
+6. In crop mode:
+   - resize free crop by dragging border/corner handles
+   - click `Apply` to commit crop changes
+   - click `Cancel` to discard crop changes and restore the crop state from when crop mode was opened
+7. Rename the export file in the image-name field.
+8. Export as PNG or JPG.
 
 ## What Is Live Right Now
 
@@ -26,6 +31,9 @@ Fast workflow, no server upload requirement, and clean PNG/JPG export.
 - Rotation and flipping
 - Zoom control for preview
 - Crop overlay with ratio presets: `Free`, `1:1`, `4:5`, `16:9`
+- Free-crop border/corner drag resizing
+- Explicit crop action flow: `Apply` / `Cancel`
+- Undo / Redo history (store snapshots for filters, rotation, flip, crop, zoom)
 - Editable export filename
 - PNG/JPG export with applied crop, filters, rotation, and flip
 - Reset to editor defaults
@@ -40,6 +48,7 @@ The app follows a state-driven render model:
 - `EditorCanvas.tsx` subscribes to state and redraws on change.
 - `draw.ts` handles preview drawing logic (fit, zoom, transform, filter, crop region).
 - `exportImage.ts` renders an off-screen export canvas and downloads PNG/JPG.
+- History (`undo`/`redo`) and crop sessions (`applyCropSession`/`cancelCropSession`) are handled in the Zustand store.
 
 ## Project Structure
 
@@ -82,7 +91,7 @@ npm install
 npm run dev
 ```
 
-Open `https://next-photo-editor-nine.vercel.app/`.
+Open `http://localhost:3000`.
 
 Optional checks:
 
@@ -96,6 +105,7 @@ npm run build
 - Editing is fully client-side.
 - Zoom affects preview scale, not output pixel dimensions.
 - Export uses current crop + transform + filter state.
+- Undo/Redo currently tracks editing state only (not uploaded image changes or image name edits).
 
 ## License
 
