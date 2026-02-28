@@ -6,7 +6,6 @@ const Footer =() =>{
           <p>Photo Editor - Built for quick browser edits</p>
         </footer>
     );
-
 }
 
 

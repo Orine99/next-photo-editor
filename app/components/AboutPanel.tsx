@@ -12,7 +12,7 @@ export default function AboutPanel({
   description = "Upload a photo, apply filters, rotate/flip, and export in seconds — all in your browser.",
 }: AboutPanelProps) {
   return (
-    <div className="about-panel">
+    <div className="about-panel" id ="about">
       <h2 className="about-title">{title}</h2>
       <p className="about-tagline">{tagline}</p>
 

@@ -1,5 +1,4 @@
-import {pageLinks, socialLinks} from "../data";
-import logo from "../images/icon-1.png"
+import {pageLinks} from "../data";
 
 export default function Navbar(){
     return (
