@@ -29,6 +29,9 @@ export default function Toolbar() {
   const aspect = useEditorStore((s) => s.aspect);
   const setAspect = useEditorStore((s) => s.setAspect);
   const croppedAreaPixels = useEditorStore((s) => s.croppedAreaPixels);
+  const setCroppedAreaPixels = useEditorStore((s) => s.setCroppedAreaPixels);
+  const setCrop = useEditorStore((s) => s.setCrop);
+  const setZoomCrop = useEditorStore((s) => s.setZoomCrop);
 
   const sanitizeFileName = (name: string) =>
     name
@@ -57,8 +60,23 @@ export default function Toolbar() {
 
   const handleCropToggle = () => {
     if (!imageBitmap) return;
-    if (isCropOpen) closeCrop();
-    if (!isCropOpen) openCrop();
+    if (isCropOpen) {
+      const keepCrop = window.confirm(
+        "Keep this crop?\n\nSelect OK to keep current crop.\nSelect Cancel to reset to original image size."
+      );
+
+      if (!keepCrop) {
+        // Reset only crop state, keep all other edits untouched.
+        setCroppedAreaPixels(null);
+        setCrop({ x: 0, y: 0 });
+        setZoomCrop(1);
+      }
+
+      closeCrop();
+      return;
+    }
+
+    openCrop();
   };
 
   const handleCropAspectChange = (nextAspect: number) => {

@@ -23,20 +23,6 @@ export default function Navbar(){
                     )
                 })}
             </ul>
-
-            <ul className="nav-icons">
-                {
-                    socialLinks.map((link)=>{
-                        return (
-                                <li key={link.id}>
-                                    <a href={link.href} target="_blank" rel="noopener" className="nav-icon">
-                                        <i className={link.icon}></i>
-                                    </a>
-                                </li>
-                            )
-                    })          
-            }       
-            </ul>
         </div>
     </nav>
     )

@@ -33,6 +33,7 @@ body {
   left: 0;
   width: 100%;
   height: 80px;
+  border-radius: 18px;
 
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -541,6 +542,88 @@ body {
   z-index: 40;
 }
 
+.canvas-crop-free-frame {
+  position: absolute;
+  z-index: 42;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.canvas-crop-handle {
+  position: absolute;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.canvas-crop-handle.edge {
+  background: transparent;
+}
+
+.canvas-crop-handle.edge-n {
+  left: 12px;
+  right: 12px;
+  top: -7px;
+  height: 14px;
+  cursor: ns-resize;
+}
+
+.canvas-crop-handle.edge-s {
+  left: 12px;
+  right: 12px;
+  bottom: -7px;
+  height: 14px;
+  cursor: ns-resize;
+}
+
+.canvas-crop-handle.edge-e {
+  top: 12px;
+  bottom: 12px;
+  right: -7px;
+  width: 14px;
+  cursor: ew-resize;
+}
+
+.canvas-crop-handle.edge-w {
+  top: 12px;
+  bottom: 12px;
+  left: -7px;
+  width: 14px;
+  cursor: ew-resize;
+}
+
+.canvas-crop-handle.corner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  background: rgba(18, 18, 18, 0.5);
+  border-radius: 50%;
+}
+
+.canvas-crop-handle.corner-ne {
+  top: -8px;
+  right: -8px;
+  cursor: nesw-resize;
+}
+
+.canvas-crop-handle.corner-nw {
+  top: -8px;
+  left: -8px;
+  cursor: nwse-resize;
+}
+
+.canvas-crop-handle.corner-se {
+  bottom: -8px;
+  right: -8px;
+  cursor: nwse-resize;
+}
+
+.canvas-crop-handle.corner-sw {
+  bottom: -8px;
+  left: -8px;
+  cursor: nesw-resize;
+}
+
 .crop-selector {
   border: 1px solid #e4e4e7;
   border-radius: 12px;
@@ -780,6 +863,16 @@ body {
   border-color: #9bb6a1;
   background: rgba(248, 252, 248, 0.95);
   color: #2f4637;
+}
+
+.nature-theme .canvas-crop-free-frame {
+  border-color: rgba(247, 252, 247, 0.95);
+  box-shadow: 0 0 0 9999px rgba(58, 84, 65, 0.3);
+}
+
+.nature-theme .canvas-crop-handle.corner {
+  border-color: rgba(247, 252, 247, 0.95);
+  background: rgba(73, 102, 81, 0.55);
 }
 
 .zoom-bar {

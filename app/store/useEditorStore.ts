@@ -43,7 +43,7 @@ type EditorState = {
     setCrop: (c: CropPoint) => void;
     setZoomCrop: (z: number) => void;
     setAspect: (a: number) => void;
-    setCroppedAreaPixels: (area: CroppedArea) => void;
+    setCroppedAreaPixels: (area: CroppedArea | null) => void;
    
 
     reset: () => void;

@@ -17,6 +17,7 @@ export default function EditorCanvas() {
   const filters = useEditorStore((s) => s.filters);
   const zoom = useEditorStore((s) => s.zoom);
   const croppedAreaPixels = useEditorStore((s) => s.croppedAreaPixels);
+  const isCropOpen = useEditorStore((s) => s.isCropOpen);
   const toggleCrop = useEditorStore((s) => s.toggleCrop);
 
   const onPointerDown = () => {
@@ -76,7 +77,7 @@ export default function EditorCanvas() {
         onPointerDown={onPointerDown}
       >
         <canvas ref={canvasRef} className="editor-canvas w-full h-[520px] rounded-lg" />
-        <CropPopover />
+        {isCropOpen && <CropPopover />}
         <ZoomControl />
       </div>
     </div>

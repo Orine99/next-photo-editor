@@ -13,18 +13,11 @@ export default function AboutPanel({
 }: AboutPanelProps) {
   return (
     <div className="about-panel">
-      <span className="about-badge">Browser-based Editor</span>
-
       <h2 className="about-title">{title}</h2>
       <p className="about-tagline">{tagline}</p>
 
       <p className="about-description">{description}</p>
 
-      {/* <ul className="about-list">
-        <li>✔ Filters & adjustments</li>
-        <li>✔ Rotate & flip</li>
-        <li>✔ Export PNG/JPG</li>
-      </ul> */}
     </div>
   );
 }
